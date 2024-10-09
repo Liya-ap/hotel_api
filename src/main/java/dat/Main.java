@@ -9,9 +9,8 @@ public class Main {
         //Populates the database
         Populate.populateDatabase();
 
+        System.out.println("Starting the server..");
         //Start the server
         ApplicationConfig.startServer(7070);
-
-        //test
     }
 }
