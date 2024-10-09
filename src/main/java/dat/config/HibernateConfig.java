@@ -59,6 +59,8 @@ public class HibernateConfig {
                 props = setTestProperties(props);
             } else if (System.getenv("DEPLOYED") != null) {
                 setDeployedProperties(props);
+            } else if (System.getenv("PRODUCTION") != null) {
+                props = setupHibernateConfigurationForProduction(props);
             } else {
                 props = setDevProperties(props);
             }
@@ -99,9 +101,16 @@ public class HibernateConfig {
 
     private static Properties setDevProperties(Properties props) {
         String DBName = Utils.getPropertyValue("DB_NAME", "config.properties");
-        props.put("hibernate.connection.url", "jdbc:postgresql://localhost:5432/" + DBName);
+        props.put("hibernate.connection.url", "jdbc:postgresql://db:5432/" + DBName);
         props.put("hibernate.connection.username", "postgres");
         props.put("hibernate.connection.password", "postgres");
+        return props;
+    }
+
+    private static Properties setupHibernateConfigurationForProduction(Properties props) {
+        props.put("hibernate.connection.url", System.getenv("JDBC_DATABASE_URL"));
+        props.put("hibernate.connection.username", System.getenv("JDBC_DATABASE_USERNAME"));
+        props.put("hibernate.connection.password", System.getenv("JDBC_DATABASE_PASSWORD"));
         return props;
     }
 
