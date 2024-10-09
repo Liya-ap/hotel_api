@@ -11,5 +11,7 @@ public class Main {
 
         //Start the server
         ApplicationConfig.startServer(7070);
+
+        //test
     }
 }
